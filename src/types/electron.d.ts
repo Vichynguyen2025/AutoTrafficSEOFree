@@ -32,6 +32,19 @@ declare global {
       deleteScenario: (id: string) => Promise<any>
       runScenario: (opts: { profileId: string; steps: any[]; variables: Record<string, string>; headless?: boolean }) => Promise<any>
 
+      // Campaign
+      getCampaigns: () => Promise<any[]>
+      getCampaign: (id: string) => Promise<any>
+      createCampaign: (data: { name: string; scenarioId: string; profileIds: string[]; variables: Record<string, string>; concurrency: number; headless: boolean; scheduleAt?: string | null }) => Promise<any>
+      updateCampaign: (id: string, data: any) => Promise<any>
+      deleteCampaign: (id: string) => Promise<any>
+      startCampaign: (id: string) => Promise<any>
+      stopCampaign: (id: string) => Promise<any>
+      pauseCampaign: (id: string) => Promise<any>
+      resumeCampaign: (id: string) => Promise<any>
+      getCampaignStats: (id: string) => Promise<{ total: number; pending: number; running: number; completed: number; failed: number; cancelled: number; active: number; isRunning: boolean; isPaused: boolean; logs: any[] }>
+      getGlobalStats: () => Promise<{ total: number; running: number; pending: number; completed: number; failed: number; cancelled: number }>
+
       // Settings
       getSettings: () => Promise<{ headless: boolean }>
       updateSettings: (data: any) => Promise<any>

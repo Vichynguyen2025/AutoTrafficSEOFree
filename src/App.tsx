@@ -7,6 +7,7 @@ import Scenarios from './pages/Scenarios'
 import ScenarioEditor from './pages/ScenarioEditor'
 import ScenarioRun from './pages/ScenarioRun'
 import Campaigns from './pages/Campaigns'
+import CampaignDetail from './pages/CampaignDetail'
 import Tasks from './pages/Tasks'
 import Logs from './pages/Logs'
 import Settings from './pages/Settings'
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/scenarios/:id" element={<ScenarioEditor />} />
         <Route path="/scenarios/:id/run" element={<ScenarioRun />} />
         <Route path="/campaigns" element={<Campaigns />} />
+        <Route path="/campaigns/:id" element={<CampaignDetail />} />
         <Route path="/tasks" element={<Tasks />} />
         <Route path="/logs" element={<Logs />} />
         <Route path="/settings" element={<Settings />} />

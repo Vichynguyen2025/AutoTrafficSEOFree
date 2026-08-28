@@ -5,6 +5,7 @@ import { registerBrowserIPC } from './ipc/browser'
 import { registerProxyIPC } from './ipc/proxy'
 import { registerScenarioIPC } from './ipc/scenario'
 import { registerSettingsIPC } from './ipc/settings'
+import { registerCampaignIPC } from './ipc/campaign'
 
 let mainWindow: BrowserWindow | null = null
 
@@ -45,6 +46,7 @@ app.whenReady().then(() => {
   registerProxyIPC()
   registerScenarioIPC()
   registerSettingsIPC()
+  registerCampaignIPC()
   createWindow()
 
   app.on('activate', () => {

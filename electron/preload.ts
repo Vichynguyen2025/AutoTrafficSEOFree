@@ -30,6 +30,19 @@ contextBridge.exposeInMainWorld('electronAPI', {
   deleteScenario: (id: string) => ipcRenderer.invoke('scenario:delete', id),
   runScenario: (opts: { profileId: string; steps: any[]; variables: Record<string, string>; headless?: boolean }) => ipcRenderer.invoke('scenario:run', opts),
 
+  // Campaign
+  getCampaigns: () => ipcRenderer.invoke('campaign:getAll'),
+  getCampaign: (id: string) => ipcRenderer.invoke('campaign:get', id),
+  createCampaign: (data: any) => ipcRenderer.invoke('campaign:create', data),
+  updateCampaign: (id: string, data: any) => ipcRenderer.invoke('campaign:update', id, data),
+  deleteCampaign: (id: string) => ipcRenderer.invoke('campaign:delete', id),
+  startCampaign: (id: string) => ipcRenderer.invoke('campaign:start', id),
+  stopCampaign: (id: string) => ipcRenderer.invoke('campaign:stop', id),
+  pauseCampaign: (id: string) => ipcRenderer.invoke('campaign:pause', id),
+  resumeCampaign: (id: string) => ipcRenderer.invoke('campaign:resume', id),
+  getCampaignStats: (id: string) => ipcRenderer.invoke('campaign:stats', id),
+  getGlobalStats: () => ipcRenderer.invoke('campaign:globalStats'),
+
   // Settings
   getSettings: () => ipcRenderer.invoke('settings:get'),
   updateSettings: (data: any) => ipcRenderer.invoke('settings:update', data),
