@@ -13,6 +13,8 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    permissions:
+      contents: write
 
     env:
       NODE_VERSION: '20'
@@ -53,6 +55,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: List dist-release
+        shell: pwsh
         run: |
           if (Test-Path "dist-release") {
             Get-ChildItem -Path "dist-release" -Recurse | Select-Object Name, Length
@@ -103,6 +106,8 @@ jobs:
             - Requires MySQL database
             - Requires Playwright Chromium (`npx playwright install chromium`)
           prerelease: true
+          draft: false
+          generate_release_notes: true
           files: dist-release/*
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          fail_on_unmatched_files: false
+          token: ${{ secrets.GITHUB_TOKEN }}
