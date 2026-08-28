@@ -28,7 +28,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   createScenario: (data: any) => ipcRenderer.invoke('scenario:create', data),
   updateScenario: (id: string, data: any) => ipcRenderer.invoke('scenario:update', id, data),
   deleteScenario: (id: string) => ipcRenderer.invoke('scenario:delete', id),
-  runScenario: (opts: any) => ipcRenderer.invoke('scenario:run', opts),
+  runScenario: (opts: { profileId: string; steps: any[]; variables: Record<string, string>; headless?: boolean }) => ipcRenderer.invoke('scenario:run', opts),
 
   // Settings
   getSettings: () => ipcRenderer.invoke('settings:get'),

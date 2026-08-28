@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Play, Square, Loader2, ArrowLeft, CheckCircle, XCircle, AlertTriangle, Clock } from 'lucide-react'
+import { Play, Square, Loader2, ArrowLeft, CheckCircle, XCircle, AlertTriangle, Clock, Eye, EyeOff } from 'lucide-react'
 import type { ScenarioStep, RunLog } from '../types/scenario'
 
 export default function ScenarioRun() {
@@ -11,6 +11,7 @@ export default function ScenarioRun() {
   const [steps, setSteps] = useState<ScenarioStep[]>([])
   const [profiles, setProfiles] = useState<any[]>([])
   const [selectedProfile, setSelectedProfile] = useState('')
+  const [headless, setHeadless] = useState(false)
   const [variables, setVariables] = useState<Record<string, string>>({ keyword: '', targetDomain: '', url: '', text: '' })
   const [logs, setLogs] = useState<RunLog[]>([])
   const [running, setRunning] = useState(false)
@@ -21,13 +22,18 @@ export default function ScenarioRun() {
     Promise.all([
       window.electronAPI.getScenario(id!),
       window.electronAPI.getProfiles(),
-    ]).then(([s, p]) => {
+      window.electronAPI.getSettings(),
+    ]).then(([s, p, settings]) => {
       if (s) {
         setScenario(s)
         try { const parsed = JSON.parse(s.steps); setSteps(parsed) } catch {}
       }
       setProfiles(p)
       if (p.length > 0) setSelectedProfile(p[0].id)
+      // Load headless default from settings
+      if (settings && typeof settings.headless === 'boolean') {
+        setHeadless(settings.headless)
+      }
       setLoading(false)
     })
   }, [id])
@@ -43,6 +49,7 @@ export default function ScenarioRun() {
         profileId: selectedProfile,
         steps,
         variables,
+        headless,
       })
       setLogs(res.logs || [])
       setResult(res)
@@ -90,14 +97,30 @@ export default function ScenarioRun() {
 
       {/* Configuration */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
-        {/* Profile + Variables */}
+        {/* Profile + Variables + Headless toggle */}
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 space-y-3">
           <div className="text-[13px] font-bold">Configuration</div>
+
           <select value={selectedProfile} onChange={e => setSelectedProfile(e.target.value)}
             className="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 text-[13px] outline-none bg-white focus:ring-2 focus:ring-indigo-500/30">
             <option value="">Select a profile</option>
             {profiles.map(p => <option key={p.id} value={p.id}>{p.name} {p.proxy ? `(🔒 ${p.proxy.host})` : ''}</option>)}
           </select>
+
+          {/* Headless toggle */}
+          <div className="flex items-center justify-between py-2 px-3 rounded-xl bg-gray-50 border border-gray-100">
+            <div className="flex items-center gap-2">
+              {headless ? <EyeOff className="w-4 h-4 text-gray-400" /> : <Eye className="w-4 h-4 text-indigo-600" />}
+              <span className="text-[12px] font-semibold text-gray-700">{headless ? 'Run hidden' : 'Show browser'}</span>
+            </div>
+            <button
+              onClick={() => setHeadless(!headless)}
+              className={`relative w-10 h-5 rounded-full transition-colors ${headless ? 'bg-indigo-600' : 'bg-gray-300'}`}
+            >
+              <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${headless ? 'translate-x-5' : 'translate-x-0.5'}`} />
+            </button>
+          </div>
+
           <div className="grid grid-cols-2 gap-2">
             {Object.entries(variables).map(([key, val]) => (
               <div key={key}>

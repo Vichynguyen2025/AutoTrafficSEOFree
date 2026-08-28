@@ -14,12 +14,14 @@ export async function runScenario(
   profileId: string,
   steps: ScenarioStep[],
   variables: Record<string, string>,
+  options?: { headless?: boolean },
   onLog?: (log: RunLog) => void
 ): Promise<ScenarioResult> {
   const logs: RunLog[] = []
   const startTime = Date.now()
   let context: BrowserContext | null = null
   let page: Page | null = null
+  const headless = options?.headless !== undefined ? options.headless : false // default: visible
 
   function addLog(stepId: string, stepLabel: string, type: StepType, status: RunLog['status'], message: string, dur = 0) {
     const entry: RunLog = { stepId, stepLabel, type, status, message, durationMs: dur, timestamp: Date.now() }
@@ -32,7 +34,7 @@ export async function runScenario(
     if (!profile) return { success: false, logs, totalDurationMs: Date.now() - startTime, error: 'Profile not found' }
 
     const userDataDir = profile.userDataDir || path.join(app.getPath('userData'), 'profiles', profile.id)
-    const launchOptions: any = { headless: true, userDataDir }
+    const launchOptions: any = { headless, userDataDir }
 
     if (profile.proxy) {
       const p = profile.proxy

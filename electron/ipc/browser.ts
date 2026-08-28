@@ -9,6 +9,11 @@ const browserInstances = new Map<string, any>()
 
 export function registerBrowserIPC() {
   ipcMain.handle('browser:open', async (_e, profileId: string) => {
+    // Block if already open
+    if (browserInstances.has(profileId)) {
+      throw new Error('Browser already open for this profile')
+    }
+
     const profile = await prisma.profile.findUnique({ where: { id: profileId }, include: { proxy: true } })
     if (!profile) throw new Error('Profile not found')
 

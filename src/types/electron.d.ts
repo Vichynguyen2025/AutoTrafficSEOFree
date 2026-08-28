@@ -30,10 +30,10 @@ declare global {
       createScenario: (data: any) => Promise<any>
       updateScenario: (id: string, data: any) => Promise<any>
       deleteScenario: (id: string) => Promise<any>
-      runScenario: (opts: { profileId: string; steps: any[]; variables: Record<string, string> }) => Promise<any>
+      runScenario: (opts: { profileId: string; steps: any[]; variables: Record<string, string>; headless?: boolean }) => Promise<any>
 
       // Settings
-      getSettings: () => Promise<any>
+      getSettings: () => Promise<{ headless: boolean }>
       updateSettings: (data: any) => Promise<any>
     }
   }

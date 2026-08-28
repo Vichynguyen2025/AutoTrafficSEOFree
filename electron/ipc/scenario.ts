@@ -45,6 +45,7 @@ export function registerScenarioIPC() {
     profileId: string
     steps: ScenarioStep[]
     variables: Record<string, string>
+    headless?: boolean
   }) => {
     const logs: RunLog[] = []
 
@@ -52,10 +53,10 @@ export function registerScenarioIPC() {
       opts.profileId,
       opts.steps,
       opts.variables,
+      { headless: opts.headless },
       (log) => { logs.push(log) }
     )
 
-    // Save logs to DB if a scenario is linked
     return { ...result, logs }
   })
 }
