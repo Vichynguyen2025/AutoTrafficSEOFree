@@ -1,11 +1,11 @@
 import { chromium, BrowserContext, Page } from 'playwright'
-import { PrismaClient } from '@prisma/client'
+import { getPrisma } from '../prisma'
 import path from 'path'
 import { app } from 'electron'
 import type { ScenarioStep, StepType, RunLog, ScenarioResult } from '../ipc/types'
 
-const prisma = new PrismaClient()
 
+const prisma = getPrisma()
 function resolveVars(text: string, vars: Record<string, string>): string {
   return text.replace(/\{\{(\w+)\}\}/g, (_m, key) => vars[key] || '')
 }

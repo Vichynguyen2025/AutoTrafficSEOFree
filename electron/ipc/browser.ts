@@ -1,10 +1,10 @@
 import { ipcMain } from 'electron'
-import { PrismaClient } from '@prisma/client'
+import { getPrisma } from '../prisma'
 import { chromium } from 'playwright'
 import path from 'path'
 import { app } from 'electron'
 
-const prisma = new PrismaClient()
+const prisma = getPrisma()
 const browserInstances = new Map<string, any>()
 
 export function registerBrowserIPC() {

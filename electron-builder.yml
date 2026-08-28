@@ -7,8 +7,9 @@ files:
   - dist/**/*
   - dist-electron/**/*
   - prisma/**/*
-  - node_modules/@prisma/**/*
-  - node_modules/.prisma/**/*
+  - node_modules/@prisma/client/**/*
+  - node_modules/.prisma/client/**/*
+  - node_modules/prisma/**/*
 win:
   target: nsis
   icon: build/icon.png
@@ -16,7 +17,7 @@ nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
 extraResources:
-  - from: node_modules/.prisma
-    to: node_modules/.prisma
+  - from: node_modules/.prisma/client
+    to: prisma-client
     filter:
       - "**/*"

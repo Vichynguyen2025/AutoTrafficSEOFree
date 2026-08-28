@@ -1,8 +1,8 @@
 import { ipcMain } from 'electron'
-import { PrismaClient } from '@prisma/client'
+import { getPrisma } from '../prisma'
 
-const prisma = new PrismaClient()
 
+const prisma = getPrisma()
 export function registerSettingsIPC() {
   ipcMain.handle('settings:get', async () => {
     let s = await prisma.settings.findUnique({ where: { id: 'default' } })

@@ -1,10 +1,10 @@
-import { PrismaClient } from '@prisma/client'
+import { getPrisma } from '../prisma'
 import { chromium, BrowserContext, Page } from 'playwright'
 import path from 'path'
 import { app } from 'electron'
 
-const prisma = new PrismaClient()
 
+const prisma = getPrisma()
 // ====== Task Queue State ======
 interface QueuedTask {
   taskId: string

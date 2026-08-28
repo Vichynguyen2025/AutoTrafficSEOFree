@@ -1,9 +1,9 @@
 import { ipcMain } from 'electron'
-import { PrismaClient } from '@prisma/client'
+import { getPrisma } from '../prisma'
 import * as TaskQueue from '../task-queue'
 
-const prisma = new PrismaClient()
 
+const prisma = getPrisma()
 export function registerCampaignIPC() {
   // CRUD
   ipcMain.handle('campaign:getAll', async () => {

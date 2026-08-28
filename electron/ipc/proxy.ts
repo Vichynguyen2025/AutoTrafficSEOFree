@@ -1,8 +1,8 @@
 import { ipcMain } from 'electron'
-import { PrismaClient } from '@prisma/client'
+import { getPrisma } from '../prisma'
 
-const prisma = new PrismaClient()
 
+const prisma = getPrisma()
 export function registerProxyIPC() {
   ipcMain.handle('proxy:getAll', async () => {
     return prisma.proxy.findMany({ orderBy: { createdAt: 'desc' } })

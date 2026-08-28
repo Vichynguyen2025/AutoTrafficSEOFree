@@ -1,10 +1,10 @@
 import { ipcMain } from 'electron'
-import { PrismaClient } from '@prisma/client'
+import { getPrisma } from '../prisma'
 import { runScenario } from '../scenario-engine'
 import type { ScenarioStep, RunLog } from './types'
 
-const prisma = new PrismaClient()
 
+const prisma = getPrisma()
 export function registerScenarioIPC() {
   // CRUD
   ipcMain.handle('scenario:getAll', async () => {
