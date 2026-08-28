@@ -9,15 +9,23 @@ files:
   - prisma/**/*
   - node_modules/@prisma/client/**/*
   - node_modules/.prisma/client/**/*
-  - node_modules/prisma/**/*
+  - node_modules/@prisma/engines/**/*
+  - "!node_modules/**/*.h"
+  - "!node_modules/**/*.c"
+  - "!node_modules/**/*.cpp"
+  - "!node_modules/**/*.o"
+  - "!node_modules/**/*.a"
+  - "!node_modules/**/*.md"
+  - "!node_modules/**/CHANGELOG*"
+  - "!node_modules/**/LICENSE*"
+  - "!node_modules/**/.npmignore"
+  - "!node_modules/**/.travis.yml"
+  - "!node_modules/**/tsconfig.json"
+  - "!node_modules/**/.gitignore"
+asar: false
 win:
   target: nsis
   icon: build/icon.png
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
-extraResources:
-  - from: node_modules/.prisma/client
-    to: prisma-client
-    filter:
-      - "**/*"

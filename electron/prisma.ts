@@ -7,18 +7,11 @@ let prisma: PrismaClient | null = null
 export function getPrisma(): PrismaClient {
   if (prisma) return prisma
 
-  // Handle path resolution for packaged Electron app
   if (app.isPackaged) {
-    // In packaged app, Prisma engine binaries are in extraResources
-    const resourcesPath = process.resourcesPath
-    const enginePath = path.join(resourcesPath, 'prisma-client')
-    
-    // Try windows DLL first
-    const dllPath = path.join(enginePath, 'query_engine-windows.dll.node')
-    const fs = require('fs')
-    if (fs.existsSync(dllPath)) {
-      process.env.PRISMA_QUERY_ENGINE_LIBRARY = dllPath
-    }
+    // In packaged app, ensure Prisma can find the library engine
+    // The library engine type doesn't need a native binary (.dll/.so)
+    // It uses WASM which is bundled with @prisma/client
+    process.env.PRISMA_CLIENT_ENGINE_TYPE = 'library'
   }
 
   prisma = new PrismaClient({
