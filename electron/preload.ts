@@ -22,6 +22,14 @@ contextBridge.exposeInMainWorld('electronAPI', {
   testProxy: (id: string) => ipcRenderer.invoke('proxy:test', id),
   importProxies: (data: string) => ipcRenderer.invoke('proxy:import', data),
 
+  // Scenario
+  getScenarios: () => ipcRenderer.invoke('scenario:getAll'),
+  getScenario: (id: string) => ipcRenderer.invoke('scenario:get', id),
+  createScenario: (data: any) => ipcRenderer.invoke('scenario:create', data),
+  updateScenario: (id: string, data: any) => ipcRenderer.invoke('scenario:update', id, data),
+  deleteScenario: (id: string) => ipcRenderer.invoke('scenario:delete', id),
+  runScenario: (opts: any) => ipcRenderer.invoke('scenario:run', opts),
+
   // Settings
   getSettings: () => ipcRenderer.invoke('settings:get'),
   updateSettings: (data: any) => ipcRenderer.invoke('settings:update', data),

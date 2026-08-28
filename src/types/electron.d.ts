@@ -24,6 +24,14 @@ declare global {
       testProxy: (id: string) => Promise<any>
       importProxies: (data: string) => Promise<any[]>
 
+      // Scenario
+      getScenarios: () => Promise<any[]>
+      getScenario: (id: string) => Promise<any>
+      createScenario: (data: any) => Promise<any>
+      updateScenario: (id: string, data: any) => Promise<any>
+      deleteScenario: (id: string) => Promise<any>
+      runScenario: (opts: { profileId: string; steps: any[]; variables: Record<string, string> }) => Promise<any>
+
       // Settings
       getSettings: () => Promise<any>
       updateSettings: (data: any) => Promise<any>
