@@ -1,0 +1,28 @@
+import { contextBridge, ipcRenderer } from 'electron'
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  // Profile
+  getProfiles: () => ipcRenderer.invoke('profile:getAll'),
+  getProfile: (id: string) => ipcRenderer.invoke('profile:get', id),
+  createProfile: (data: any) => ipcRenderer.invoke('profile:create', data),
+  updateProfile: (id: string, data: any) => ipcRenderer.invoke('profile:update', id, data),
+  deleteProfile: (id: string) => ipcRenderer.invoke('profile:delete', id),
+  cloneProfiles: (ids: string[]) => ipcRenderer.invoke('profile:clone', ids),
+
+  // Browser
+  openBrowser: (profileId: string) => ipcRenderer.invoke('browser:open', profileId),
+  closeBrowser: (profileId: string) => ipcRenderer.invoke('browser:close', profileId),
+  getBrowserStatus: (profileId: string) => ipcRenderer.invoke('browser:status', profileId),
+
+  // Proxy
+  getProxies: () => ipcRenderer.invoke('proxy:getAll'),
+  createProxy: (data: any) => ipcRenderer.invoke('proxy:create', data),
+  updateProxy: (id: string, data: any) => ipcRenderer.invoke('proxy:update', id, data),
+  deleteProxy: (id: string) => ipcRenderer.invoke('proxy:delete', id),
+  testProxy: (id: string) => ipcRenderer.invoke('proxy:test', id),
+  importProxies: (data: string) => ipcRenderer.invoke('proxy:import', data),
+
+  // Settings
+  getSettings: () => ipcRenderer.invoke('settings:get'),
+  updateSettings: (data: any) => ipcRenderer.invoke('settings:update', data),
+})

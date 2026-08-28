@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  userDataDir String?
+  proxyId     String?
+  proxy       Proxy?   @relation(fields: [proxyId], references: [id])
+  note        String?
+  status      String   @default("idle")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tasks       Task[]
+}
+
+model Proxy {
+  id        String    @id @default(cuid())
+  host      String
+  port      Int
+  type      String    @default("http")
+  username  String?
+  password  String?
+  note      String?
+  status    String    @default("untested")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  profiles  Profile[]
+}
+
+model Scenario {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  steps       String   @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  campaigns   Campaign[]
+}
+
+model Campaign {
+  id          String     @id @default(cuid())
+  name        String     @unique
+  scenarioId  String
+  scenario    Scenario   @relation(fields: [scenarioId], references: [id])
+  variables   String     @default("{}")
+  concurrency Int        @default(1)
+  status      String     @default("draft")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  tasks       Task[]
+}
+
+model Task {
+  id         String    @id @default(cuid())
+  campaignId String
+  campaign   Campaign  @relation(fields: [campaignId], references: [id])
+  profileId  String
+  profile    Profile   @relation(fields: [profileId], references: [id])
+  status     String    @default("pending")
+  variables  String    @default("{}")
+  retryCount Int       @default(0)
+  maxRetries Int       @default(3)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  logs       TaskLog[]
+}
+
+model TaskLog {
+  id        String   @id @default(cuid())
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id])
+  level     String   @default("info")
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model Settings {
+  id    String @id @default("default")
+  data  String @default("{}")
+}

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist-electron/
+dist-release/
+.env
+*.log
+.user-data-dirs/
+prisma/*.db
