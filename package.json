@@ -37,34 +37,5 @@
     "typescript": "^5.7.2",
     "vite": "^6.0.3",
     "wait-on": "^8.0.1"
-  },
-  "build": {
-    "appId": "com.autotraffic.seo",
-    "productName": "AutoTrafficSEO",
-    "directories": {
-      "output": "dist-release"
-    },
-    "files": [
-      "dist/**/*",
-      "dist-electron/**/*",
-      "prisma/**/*",
-      "node_modules/@prisma/**/*",
-      "node_modules/.prisma/**/*"
-    ],
-    "win": {
-      "target": "nsis",
-      "icon": "build/icon.png"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true
-    }
-  },
-  "allowScripts": {
-    "@prisma/client@6.19.3": true,
-    "@prisma/engines@6.19.3": true,
-    "electron@33.4.11": true,
-    "esbuild@0.25.12": true,
-    "prisma@6.19.3": true
   }
 }
